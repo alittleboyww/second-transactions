@@ -40,4 +40,7 @@ public interface UserService {
 
     //修改用户名
     JSONObject changeUsername(ChangeUsernameRequestParam requestParam);
+
+    //修改头像
+    JSONObject changeImage(ChangeImageRequestParam requestParam);
 }

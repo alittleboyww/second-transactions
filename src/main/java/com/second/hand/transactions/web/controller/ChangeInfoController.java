@@ -1,19 +1,22 @@
 package com.second.hand.transactions.web.controller;
 
-import com.second.hand.transactions.commands.transform.impl.StringToChangePassword;
-import com.second.hand.transactions.commands.transform.impl.StringToChangePhone;
-import com.second.hand.transactions.commands.transform.impl.StringToChangeUsername;
-import com.second.hand.transactions.commands.transform.impl.StringToChangeWeChat;
-import com.second.hand.transactions.model.requestparam.ChangePasswordRequestParam;
-import com.second.hand.transactions.model.requestparam.ChangePhoneRequestParam;
-import com.second.hand.transactions.model.requestparam.ChangeUsernameRequestParam;
-import com.second.hand.transactions.model.requestparam.ChangeWeChatRequestParam;
+import com.second.hand.transactions.commands.constant.PathConstant;
+import com.second.hand.transactions.commands.transform.impl.*;
+import com.second.hand.transactions.commands.utils.ImageTransformUtils;
+import com.second.hand.transactions.model.requestparam.*;
 import com.second.hand.transactions.service.UserService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.UUID;
 
 /**
  * Created with IDEA
@@ -54,4 +57,27 @@ public class ChangeInfoController {
         return jsonObject;
     }
 
+    @GetMapping("/changeImage")
+    public JSONObject changeImage(@RequestParam("changeImage") String changeImage, HttpServletRequest request) throws FileNotFoundException {
+        ChangeImageRequestParam requestParam = StringToChangeImage.getInstance().analysisRequestParam(changeImage);
+        //文件名
+        String fileName = UUID.randomUUID() + requestParam.getType();
+        //存储文件的路径
+        String path = ResourceUtils.getFile("classpath:").getPath();
+
+        File file = new File(path);
+        file = new File(file.getAbsolutePath(), PathConstant.UPLOAD_IMAGE);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        String filePath = file.getPath() + File.separator + fileName;
+        ImageTransformUtils.GenerateImage(requestParam.getImageStr(),filePath);
+
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + File.separator + PathConstant.UPLOAD_IMAGE + fileName;
+        //设置图片存储得路径
+        requestParam.setImagePath(url);
+
+        JSONObject jsonObject = userService.changeImage(requestParam);
+        return jsonObject;
+    }
 }

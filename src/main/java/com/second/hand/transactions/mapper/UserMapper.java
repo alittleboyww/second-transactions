@@ -60,4 +60,8 @@ public interface UserMapper {
     //修改用户名
     @Update("update user set username=#{username} where id=#{id}")
     void updateUsername(@Param("id") String id,@Param("username") String username);
+
+    //修改头像
+    @Update("update user set image_path=#{imagePath} where id=#{id}")
+    void updateImage(@Param("id") String id,@Param("imagePath") String imagePath);
 }

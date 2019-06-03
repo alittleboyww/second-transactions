@@ -44,7 +44,7 @@ public class RegisterController {
         return jsonObject;
     }*/
 
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     public JSONObject register(@RequestParam("userInfo") String userInfo, HttpServletRequest request) throws FileNotFoundException {
         UserRequestParam userRequestParam = StringToUser.getInstance().analysisRequestParam(userInfo);
         //文件名
@@ -69,5 +69,27 @@ public class RegisterController {
 
         JSONObject jsonObject = userService.save(user);
         return jsonObject;
-    }
+    }*/
+
+
+    /*@GetMapping("/upload")
+    public JSONObject upload(HttpServletRequest request) throws FileNotFoundException {
+        String imageStr = ImageTransformUtils.getImageStr("E:\\Android\\image\\Absolutely.jpg");
+        //文件名
+        String fileName = UUID.randomUUID() + ".jpg";
+        //存储文件的路径
+        String path = ResourceUtils.getFile("classpath:").getPath();
+        File file = new File(path);
+        file = new File(file.getAbsolutePath(), PathConstant.UPLOAD_IMAGE);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        String filePath = file.getPath() + File.separator + fileName;
+        ImageTransformUtils.GenerateImage(imageStr,filePath);
+
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + File.separator + PathConstant.UPLOAD_IMAGE + fileName;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("url",url);
+        return jsonObject;
+    }*/
 }

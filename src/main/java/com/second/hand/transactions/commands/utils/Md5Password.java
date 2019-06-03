@@ -11,13 +11,16 @@ import org.springframework.util.DigestUtils;
  */
 public class Md5Password {
     public static void main(String[] args) {
-        String password = DigestUtils.md5DigestAsHex("123456".getBytes());
+        /*String password = DigestUtils.md5DigestAsHex("123456".getBytes());
         System.out.println(password);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("1","先添加的");
         result(jsonObject);
-        System.out.println(jsonObject.getString("2"));
+        System.out.println(jsonObject.getString("2"));*/
+
+        String imageStr = ImageTransformUtils.getImageStr("E:\\Android\\image\\Absolutely.jpg");
+
     }
 
 

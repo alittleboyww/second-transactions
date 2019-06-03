@@ -173,6 +173,21 @@ public class UserServiceImpl implements UserService {
         return jsonObject;
     }
 
+    @Override
+    public JSONObject changeImage(ChangeImageRequestParam requestParam) {
+        JSONObject jsonObject = checkUser(requestParam.getId(), requestParam.getPassword());
+        if(jsonObject.getInt(ResultConstant.RESULT_RESULT) == 1){
+            userMapper.updateImage(requestParam.getId(),requestParam.getImagePath());
+
+            User user = selectById(requestParam.getId());
+            jsonObject.put(ResultConstant.RESULT_MESSAGE,user);
+        }else{
+            jsonObject.put(ResultConstant.RESULT_MESSAGE,"请先登录");
+        }
+
+        return jsonObject;
+    }
+
     //检查用户逻辑
     private JSONObject checkUser(String id, String password){
         //登录需要返回的json对象
