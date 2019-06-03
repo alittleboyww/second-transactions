@@ -34,4 +34,8 @@ spring:
   resources:
     static-locations: classpath:static/,file:static/
 
+  #生产环境配置
+  profiles:
+    active: prod
+
 
