@@ -57,7 +57,7 @@ public class ChangeInfoController {
         return jsonObject;
     }
 
-    @GetMapping("/changeImage")
+    @PostMapping("/changeImage")
     public JSONObject changeImage(@RequestParam("changeImage") String changeImage, HttpServletRequest request) throws FileNotFoundException {
         ChangeImageRequestParam requestParam = StringToChangeImage.getInstance().analysisRequestParam(changeImage);
         //文件名

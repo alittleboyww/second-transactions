@@ -26,6 +26,7 @@ public interface GoodsMapper {
             @Result(column = "image_path", property = "imagePath"),
             @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
             @Result(column = "id", property = "userMessages", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserMessageByGoodsId")),
+            @Result(column = "id", property = "user", javaType = User.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserInfoByGoodsId")),
     })
     Goods selectById(@Param("id") Integer id);
 
@@ -38,7 +39,7 @@ public interface GoodsMapper {
 
 
     //通过商品id查询对应 留言信息及用户信息
-    @Select("SELECT u.username,m.message_content,m.message_time FROM USER AS u LEFT JOIN goods_message AS gm ON u.id=gm.user_id  LEFT JOIN message AS m ON m.id=gm.message_id LEFT JOIN goods AS g ON gm.goods_id=g.id WHERE g.id=#{id} ORDER BY m.message_time ASC")
+    @Select("SELECT u.username,m.message_content,m.message_time FROM USER AS u LEFT JOIN goods_message AS gm ON u.id=gm.user_id  LEFT JOIN message AS m ON m.id=gm.message_id LEFT JOIN goods AS g ON gm.goods_id=g.id WHERE g.id=#{id} ORDER BY m.message_time DESC")
     @Results({
             @Result(column = "username", property = "username"),
             @Result(column = "message_content", property = "messageContent"),
@@ -72,6 +73,9 @@ public interface GoodsMapper {
 
     @Select("select u.username,u.image_path from user as u left join user_goods as ug on u.id=ug.user_id left join goods as g on g.id=ug.goods_id where g.id=#{id}")
     User getUserByGoodsId(@Param("id") int id);
+
+    @Select("select u.username,u.wechat,u.phone from user as u left join user_goods as ug on u.id=ug.user_id left join goods as g on g.id=ug.goods_id where g.id=#{id}")
+    User getUserInfoByGoodsId(@Param("id") int id);
 
     @Select("select count(1) from goods order by up_time desc")
     int goodsCount();

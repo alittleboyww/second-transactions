@@ -1,6 +1,7 @@
 package com.second.hand.transactions.service;
 
 import com.github.pagehelper.PageInfo;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,5 +11,10 @@ import org.springframework.stereotype.Service;
  * Time:15:28
  */
 public interface GoodsService {
+
+    //旧商品 列表分页
     PageInfo selectList(Integer pageNumber,Integer pageSize);
+
+    //商品详情
+    JSONObject goodsDetail(int goodsId);
 }

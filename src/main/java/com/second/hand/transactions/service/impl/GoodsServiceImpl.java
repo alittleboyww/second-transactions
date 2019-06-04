@@ -2,9 +2,11 @@ package com.second.hand.transactions.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.second.hand.transactions.commands.constant.ResultConstant;
 import com.second.hand.transactions.mapper.GoodsMapper;
 import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.service.GoodsService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -28,5 +30,13 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goods = goodsMapper.goodsList();
         PageInfo<Goods> pageInfo = new PageInfo<>(goods);
         return pageInfo;
+    }
+
+    @Override
+    public JSONObject goodsDetail(int goodsId) {
+        Goods goods = goodsMapper.selectById(goodsId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
+        return jsonObject;
     }
 }
