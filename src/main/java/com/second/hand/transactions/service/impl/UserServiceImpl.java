@@ -190,6 +190,7 @@ public class UserServiceImpl implements UserService {
 
     //检查用户逻辑
     private JSONObject checkUser(String id, String password){
+        String returnPassword = password;
         //登录需要返回的json对象
         JSONObject jsonObject = new JSONObject();
         //通过学号查询id是否存在，存在则进行密码判断，不存在则直接返回错误信息
@@ -200,6 +201,7 @@ public class UserServiceImpl implements UserService {
             password = DigestUtils.md5DigestAsHex(password.getBytes());
             //如果用户存在 检查密码是否正确
             if (password.equals(user.getPassword())) {
+                user.setPassword(returnPassword);
                 jsonObject.put(ResultConstant.RESULT_RESULT,ResultConstant.RESULT_SUCCESS);
                 jsonObject.put(ResultConstant.RESULT_MESSAGE,user);
                 return jsonObject;

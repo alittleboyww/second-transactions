@@ -27,7 +27,6 @@ public class LoginController {
     public JSONObject login(@RequestParam("loginInfo") String loginInfo){
 
         LoginRequestParam loginRequestParam = StringToLoginInfo.getInstance().analysisRequestParam(loginInfo);
-        System.out.println(loginRequestParam.toString());
         JSONObject jsonObject = userService.login(loginRequestParam);
         return jsonObject;
     }
