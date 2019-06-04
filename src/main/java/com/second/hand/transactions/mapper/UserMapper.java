@@ -19,30 +19,18 @@ public interface UserMapper {
 
     //查询ID用户
     @Select("select * from user where id=#{id}")
-    @Results({
-            @Result(column = "image_path", property = "imagePath"),
-    })
     User selectById(@Param("id") String id);
 
     //通过Phone查询用户
     @Select("select * from user where phone=#{phone}")
-    @Results({
-            @Result(column = "image_path", property = "imagePath"),
-    })
     User selectByPhone(@Param("phone") String phone);
 
     //通过username查询用户
     @Select("select * from user where username=#{username}")
-    @Results({
-            @Result(column = "image_path", property = "imagePath"),
-    })
     User selectByUsername(@Param("username") String username);
 
     //通过weChat查询用户
     @Select("select * from user where wechat=#{wechat}")
-    @Results({
-            @Result(column = "image_path", property = "imagePath"),
-    })
     User selectByWechat(@Param("wechat") String wechat);
 
     //修改密码

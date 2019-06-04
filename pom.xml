@@ -62,6 +62,14 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+        <!--mybatis分页插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.10</version>
+        </dependency>
+
         <!--lombok 用于简化实体类中的get和set方法-->
         <dependency>
             <groupId>org.projectlombok</groupId>

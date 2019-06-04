@@ -34,4 +34,6 @@ public class Goods implements Serializable {
     private List<Tag> tags;
 
     private List<UserMessage> userMessages;
+
+    private User user;
 }

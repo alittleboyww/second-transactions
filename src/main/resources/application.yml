@@ -35,3 +35,13 @@ spring:
     static-locations: classpath:static/,file:static/
 
 
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+
+# 数据库中下滑线 转 Java中的驼峰格式
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

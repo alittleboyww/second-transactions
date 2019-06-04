@@ -20,9 +20,6 @@ import java.util.List;
 public interface TagMapper {
 
     @Select("select * from tag")
-    @Results({
-            @Result(column = "tag_name",property = "tagName")
-    })
     List<Tag> select();
 
 }

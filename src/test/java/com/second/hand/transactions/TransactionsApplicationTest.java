@@ -316,4 +316,12 @@ public class TransactionsApplicationTest {
                 .andReturn().getResponse().getContentAsString();
         System.out.println(loginInfo);
     }
+
+
+
+    @Test
+    public void testGetUserByGoods(){
+        List<Goods> goods = goodsMapper.goodsList();
+        System.out.println(goods.toString());
+    }
 }

@@ -3,6 +3,7 @@ package com.second.hand.transactions.mapper;
 import com.second.hand.transactions.model.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -20,7 +21,6 @@ public interface GoodsMapper {
     @Select("select * from goods where id=#{id}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "goods_title", property = "goodsTitle"),
             @Result(column = "up_time", property = "upTime"),
             @Result(column = "goods_title", property = "goodsTitle"),
             @Result(column = "image_path", property = "imagePath"),
@@ -60,5 +60,20 @@ public interface GoodsMapper {
 
     @Insert("insert into goods_tag(goods_id,tag_id) values(#{goodsId},#{tagId})")
     void insertGoodsTag(@Param("goodsId") int goodsId, @Param("tagId") int tagId);
+
+
+    @Select("select * from goods order by up_time desc")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
+            @Result(column = "id", property = "user", javaType = User.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserByGoodsId")),
+    })
+    List<Goods> goodsList();
+
+    @Select("select u.username,u.image_path from user as u left join user_goods as ug on u.id=ug.user_id left join goods as g on g.id=ug.goods_id where g.id=#{id}")
+    User getUserByGoodsId(@Param("id") int id);
+
+    @Select("select count(1) from goods order by up_time desc")
+    int goodsCount();
 
 }
