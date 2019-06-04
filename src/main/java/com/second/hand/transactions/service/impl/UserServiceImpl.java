@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
         //为1表示验证成功
         if(jsonObject.getInt(ResultConstant.RESULT_RESULT) == 1){
             //更新电话号码
-            userMapper.updateWeChat(requestParam.getId(),requestParam.getUsername());
+            userMapper.updateUsername(requestParam.getId(),requestParam.getUsername());
             //返回更新后的用户信息
             jsonObject = userInfo(jsonObject, requestParam);
         }
