@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -35,6 +36,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public JSONObject goodsDetail(int goodsId) {
         Goods goods = goodsMapper.selectById(goodsId);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.format(goods.getUpTime());
+        System.out.println(goods.getUpTime());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
         return jsonObject;

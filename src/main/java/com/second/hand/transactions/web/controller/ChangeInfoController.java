@@ -7,6 +7,7 @@ import com.second.hand.transactions.model.requestparam.*;
 import com.second.hand.transactions.service.UserService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,9 @@ import java.util.UUID;
 public class ChangeInfoController {
     @Autowired
     private UserService userService;
+    @Value("${web.upload-path}")
+    private String uploadPath;
+
 
     @PostMapping("/changePassword")
     public JSONObject changePassword(@RequestParam("changePassword") String changePassword){
@@ -63,17 +67,14 @@ public class ChangeInfoController {
         //文件名
         String fileName = UUID.randomUUID() + requestParam.getType();
         //存储文件的路径
-        String path = ResourceUtils.getFile("classpath:").getPath();
-
-        File file = new File(path);
-        file = new File(file.getAbsolutePath(), PathConstant.UPLOAD_IMAGE);
+        File file = new File(uploadPath);
         if(!file.exists()){
             file.mkdirs();
         }
         String filePath = file.getPath() + File.separator + fileName;
         ImageTransformUtils.GenerateImage(requestParam.getImageStr(),filePath);
 
-        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + File.separator + PathConstant.UPLOAD_IMAGE + fileName;
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + PathConstant.UPLOAD_IMAGE + fileName;
         //设置图片存储得路径
         requestParam.setImagePath(url);
 

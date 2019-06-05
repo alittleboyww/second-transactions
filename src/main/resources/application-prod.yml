@@ -2,6 +2,9 @@
 server:
   port: 8888
 
+web:
+  upload-path: /home/file/
+
 ###配置数据源
 spring:
   datasource:
@@ -32,8 +35,7 @@ spring:
     prefix: classpath:/templates/
     mode: LEGACYHTML5
   resources:
-    static-locations: classpath:static/,file:static/
-
+    static-locations: file:${web.upload-path}
   #生产环境配置
   profiles:
     active: prod

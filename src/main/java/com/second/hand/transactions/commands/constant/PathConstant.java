@@ -7,5 +7,5 @@ package com.second.hand.transactions.commands.constant;
  * Time:19:48
  */
 public class PathConstant {
-    public static final String UPLOAD_IMAGE = "static/images/";
+    public static final String UPLOAD_IMAGE = "/upload/";
 }

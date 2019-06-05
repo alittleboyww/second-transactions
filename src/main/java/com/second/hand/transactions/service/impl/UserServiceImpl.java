@@ -178,8 +178,8 @@ public class UserServiceImpl implements UserService {
         JSONObject jsonObject = checkUser(requestParam.getId(), requestParam.getPassword());
         if(jsonObject.getInt(ResultConstant.RESULT_RESULT) == 1){
             userMapper.updateImage(requestParam.getId(),requestParam.getImagePath());
-
             User user = selectById(requestParam.getId());
+            user.setPassword(requestParam.getPassword());
             jsonObject.put(ResultConstant.RESULT_MESSAGE,user);
         }else{
             jsonObject.put(ResultConstant.RESULT_MESSAGE,"请先登录");
