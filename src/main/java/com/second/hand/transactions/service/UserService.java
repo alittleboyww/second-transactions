@@ -2,6 +2,7 @@ package com.second.hand.transactions.service;
 
 import com.second.hand.transactions.model.User;
 import com.second.hand.transactions.model.requestparam.*;
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 /**
@@ -43,4 +44,11 @@ public interface UserService {
 
     //修改头像
     JSONObject changeImage(ChangeImageRequestParam requestParam);
+
+
+    //收藏
+    JSONObject collectGoods(String userId, int goodsId);
+
+    //取消收藏
+    JSONObject cancelCollect(String userId, int goodsId);
 }

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.second.hand.transactions.commands.constant.ResultConstant;
 import com.second.hand.transactions.commands.utils.JsonDateValueProcessor;
 import com.second.hand.transactions.mapper.GoodsMapper;
+import com.second.hand.transactions.mapper.UserMapper;
 import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.service.GoodsService;
 import net.sf.json.JSONObject;
@@ -27,6 +28,8 @@ import java.util.List;
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public PageInfo selectList(Integer pageNumber, Integer pageSize) {
@@ -38,16 +41,31 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public JSONObject goodsDetail(int goodsId) {
+    public JSONObject goodsDetail(int goodsId,String userId) {
         Goods goods = goodsMapper.selectById(goodsId);
 
+        //解决date类型反返回格式问题
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
 
-        HashMap<String,Goods> goodsHashMap = new HashMap<>();
+        HashMap<String,Object> goodsHashMap = new HashMap<>();
         goodsHashMap.put(ResultConstant.RESULT_MESSAGE,goods);
-        JSONObject jsonObject = JSONObject.fromObject(goodsHashMap,jsonConfig);
 
+        List<Integer> list = userMapper.selectCollect(userId);
+        //如果返回的列表大小为 0 表示当前用户没收藏
+        if (list.size() == 0){
+            goodsHashMap.put(ResultConstant.RESULT_COLLECT_KEY,ResultConstant.RESULT_COLLECT);
+        }
+        //否则  查看goodsId是否存在
+        else{
+            boolean contains = list.contains(goodsId);
+            if (contains == false){
+                goodsHashMap.put(ResultConstant.RESULT_COLLECT_KEY,ResultConstant.RESULT_COLLECT);
+            }else{
+                goodsHashMap.put(ResultConstant.RESULT_COLLECT_KEY,ResultConstant.RESULT_CANCEL);
+            }
+        }
+        JSONObject jsonObject = JSONObject.fromObject(goodsHashMap,jsonConfig);
         return jsonObject;
     }
 }

@@ -16,5 +16,5 @@ public interface GoodsService {
     PageInfo selectList(Integer pageNumber,Integer pageSize);
 
     //商品详情
-    JSONObject goodsDetail(int goodsId);
+    JSONObject goodsDetail(int goodsId,String userId);
 }

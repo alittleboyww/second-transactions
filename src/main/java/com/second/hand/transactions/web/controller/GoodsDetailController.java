@@ -20,8 +20,8 @@ public class GoodsDetailController {
     private GoodsService goodsService;
 
     @GetMapping("/goodsDetail")
-    public JSONObject goodsDetail(@RequestParam("goodsId") Integer goodsId){
-        JSONObject jsonObject = goodsService.goodsDetail(goodsId);
+    public JSONObject goodsDetail(@RequestParam("goodsId") Integer goodsId,@RequestParam("userId")String userId){
+        JSONObject jsonObject = goodsService.goodsDetail(goodsId,userId);
         return jsonObject;
     }
 }

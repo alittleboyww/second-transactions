@@ -324,4 +324,30 @@ public class TransactionsApplicationTest {
         List<Goods> goods = goodsMapper.goodsList();
         System.out.println(goods.toString());
     }
+
+
+    //测试收藏与取消收藏
+    @Test
+    public void testCollect(){
+        String userId="8000116159";
+        int goodsId=1;
+        userMapper.collect(userId,goodsId);
+    }
+
+    @Test
+    public void testCancelCollect(){
+        String userId="8000116159";
+        int goodsId=1;
+        userMapper.cancelCollect(userId,goodsId);
+    }
+
+
+    //通过用户查询收藏信息
+    @Test
+    public void selectCollect(){
+        String userId="8000116160";
+        List<Integer> list = userMapper.selectCollect(userId);
+
+        System.out.println(list.size() == 0);
+    }
 }

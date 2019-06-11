@@ -4,6 +4,8 @@ import com.second.hand.transactions.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created with IDEA
  * author:G.B.Monkey
@@ -52,4 +54,16 @@ public interface UserMapper {
     //修改头像
     @Update("update user set image_path=#{imagePath} where id=#{id}")
     void updateImage(@Param("id") String id,@Param("imagePath") String imagePath);
+
+    //用户收藏
+    @Insert("insert into collect_goods(user_id,goods_id) values(#{userId},#{goodsId})")
+    void collect(@Param("userId") String userId, @Param("goodsId") int goodsId);
+
+    //用户取消收藏
+    @Delete("delete from collect_goods where user_id=#{userId} and goods_id=#{goodsId}")
+    void cancelCollect(@Param("userId")String userId,@Param("goodsId") int goodsId);
+
+    //查看商品是否被收藏
+    @Select("select goods_id from collect_goods where user_id=#{userId}")
+    List<Integer> selectCollect(@Param("userId") String userId);
 }

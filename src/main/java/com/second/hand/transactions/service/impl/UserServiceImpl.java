@@ -188,6 +188,25 @@ public class UserServiceImpl implements UserService {
         return jsonObject;
     }
 
+    @Override
+    public JSONObject collectGoods(String userId, int goodsId) {
+        //收藏
+        userMapper.collect(userId,goodsId);
+        //返回收藏成功信息 1为收藏 0为未收藏
+        JSONObject jsonObject = new JSONObject();
+        //收藏成功前面显示   取消收藏
+        jsonObject.put(ResultConstant.RESULT_COLLECT_KEY,ResultConstant.RESULT_CANCEL);
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject cancelCollect(String userId, int goodsId) {
+        userMapper.cancelCollect(userId,goodsId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ResultConstant.RESULT_COLLECT_KEY,ResultConstant.RESULT_COLLECT);
+        return jsonObject;
+    }
+
     //检查用户逻辑
     private JSONObject checkUser(String id, String password){
         String returnPassword = password;
@@ -220,4 +239,5 @@ public class UserServiceImpl implements UserService {
         jsonObject.put(ResultConstant.RESULT_MESSAGE,user);
         return jsonObject;
     }
+
 }
