@@ -39,9 +39,10 @@ public interface GoodsMapper {
 
 
     //通过商品id查询对应 留言信息及用户信息
-    @Select("SELECT u.username,m.message_content,m.message_time FROM USER AS u LEFT JOIN goods_message AS gm ON u.id=gm.user_id  LEFT JOIN message AS m ON m.id=gm.message_id LEFT JOIN goods AS g ON gm.goods_id=g.id WHERE g.id=#{id} ORDER BY m.message_time DESC")
+    @Select("SELECT u.username,u.image_path,m.message_content,m.message_time FROM USER AS u LEFT JOIN goods_message AS gm ON u.id=gm.user_id  LEFT JOIN message AS m ON m.id=gm.message_id LEFT JOIN goods AS g ON gm.goods_id=g.id WHERE g.id=#{id} ORDER BY m.message_time DESC")
     @Results({
             @Result(column = "username", property = "username"),
+            @Result(column = "image_path", property = "imagePath"),
             @Result(column = "message_content", property = "messageContent"),
             @Result(column = "message_time", property = "messageTime")
     })

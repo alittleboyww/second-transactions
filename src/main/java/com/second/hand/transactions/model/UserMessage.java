@@ -16,6 +16,9 @@ public class UserMessage implements Serializable {
     //用户名
     private String username;
 
+    //头像信息
+    private String imagePath;
+
     //留言内容
     private String messageContent;
 

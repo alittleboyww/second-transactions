@@ -3,14 +3,18 @@ package com.second.hand.transactions.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.second.hand.transactions.commands.constant.ResultConstant;
+import com.second.hand.transactions.commands.utils.JsonDateValueProcessor;
 import com.second.hand.transactions.mapper.GoodsMapper;
 import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.service.GoodsService;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,11 +40,14 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public JSONObject goodsDetail(int goodsId) {
         Goods goods = goodsMapper.selectById(goodsId);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat.format(goods.getUpTime());
-        System.out.println(goods.getUpTime());
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
+
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+
+        HashMap<String,Goods> goodsHashMap = new HashMap<>();
+        goodsHashMap.put(ResultConstant.RESULT_MESSAGE,goods);
+        JSONObject jsonObject = JSONObject.fromObject(goodsHashMap,jsonConfig);
+
         return jsonObject;
     }
 }
