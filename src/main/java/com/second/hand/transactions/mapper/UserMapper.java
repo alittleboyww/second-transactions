@@ -1,5 +1,6 @@
 package com.second.hand.transactions.mapper;
 
+import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -66,4 +67,13 @@ public interface UserMapper {
     //查看商品是否被收藏
     @Select("select goods_id from collect_goods where user_id=#{userId}")
     List<Integer> selectCollect(@Param("userId") String userId);
+
+    //收藏商品列表
+    @Select("select g.id,g.goods_title,g.image_path,g.up_time from goods as g left join collect_goods as cg on cg.goods_id=g.id where user_id=#{userId}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "up_time", property = "upTime"),
+            @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
+    })
+    List<Goods> collectList(@Param("userId") String userId);
 }

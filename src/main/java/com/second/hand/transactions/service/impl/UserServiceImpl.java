@@ -1,16 +1,25 @@
 package com.second.hand.transactions.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.second.hand.transactions.commands.constant.ResultConstant;
 import com.second.hand.transactions.commands.constant.UserRequestParamConstant;
+import com.second.hand.transactions.commands.utils.JsonDateValueProcessor;
 import com.second.hand.transactions.commands.validate.BeanValidator;
 import com.second.hand.transactions.mapper.UserMapper;
+import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.model.User;
 import com.second.hand.transactions.model.requestparam.*;
 import com.second.hand.transactions.service.UserService;
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created with IDEA
@@ -204,6 +213,15 @@ public class UserServiceImpl implements UserService {
         userMapper.cancelCollect(userId,goodsId);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ResultConstant.RESULT_COLLECT_KEY,ResultConstant.RESULT_COLLECT);
+        return jsonObject;
+    }
+
+    @Override
+    public com.alibaba.fastjson.JSONObject collectList(String userId) {
+        List<Goods> goods = userMapper.collectList(userId);
+
+        com.alibaba.fastjson.JSONObject jsonObject = new com.alibaba.fastjson.JSONObject();
+        jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
         return jsonObject;
     }
 

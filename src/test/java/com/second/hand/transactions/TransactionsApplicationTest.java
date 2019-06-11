@@ -350,4 +350,12 @@ public class TransactionsApplicationTest {
 
         System.out.println(list.size() == 0);
     }
+
+    //测试查询出收藏列表
+    @Test
+    public void collectList(){
+        String userId="8000116160";
+        List<Goods> goods = userMapper.collectList(userId);
+        System.out.println(goods);
+    }
 }

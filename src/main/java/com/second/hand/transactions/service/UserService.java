@@ -3,6 +3,7 @@ package com.second.hand.transactions.service;
 import com.second.hand.transactions.model.User;
 import com.second.hand.transactions.model.requestparam.*;
 import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -51,4 +52,7 @@ public interface UserService {
 
     //取消收藏
     JSONObject cancelCollect(String userId, int goodsId);
+
+    //收藏列表
+    com.alibaba.fastjson.JSONObject collectList(String userId);
 }

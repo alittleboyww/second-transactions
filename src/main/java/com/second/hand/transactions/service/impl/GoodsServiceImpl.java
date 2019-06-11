@@ -3,6 +3,7 @@ package com.second.hand.transactions.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.second.hand.transactions.commands.constant.ResultConstant;
+import com.second.hand.transactions.commands.utils.DateTransfer;
 import com.second.hand.transactions.commands.utils.JsonDateValueProcessor;
 import com.second.hand.transactions.mapper.GoodsMapper;
 import com.second.hand.transactions.mapper.UserMapper;
@@ -45,8 +46,7 @@ public class GoodsServiceImpl implements GoodsService {
         Goods goods = goodsMapper.selectById(goodsId);
 
         //解决date类型反返回格式问题
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+        JsonConfig jsonConfig = DateTransfer.getJsonConfig();
 
         HashMap<String,Object> goodsHashMap = new HashMap<>();
         goodsHashMap.put(ResultConstant.RESULT_MESSAGE,goods);
