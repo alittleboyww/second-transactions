@@ -358,4 +358,20 @@ public class TransactionsApplicationTest {
         List<Goods> goods = userMapper.collectList(userId);
         System.out.println(goods);
     }
+
+    //测试添加留言
+    @Test
+    public void addMessage() throws Exception {
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("userId","8000116159");
+        jsonObject.put("goodsId",3);
+        jsonObject.put("messageTime",new Date().getTime());
+        jsonObject.put("messageContent","wohaoxihau");
+        String loginInfo = mvc.perform(MockMvcRequestBuilders.post("/addMessage").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .param("message", jsonObject.toString()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(loginInfo);
+    }
 }

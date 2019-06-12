@@ -22,4 +22,13 @@ public class Message implements Serializable {
 
     //留言时间
     private Date messageTime;
+
+    public Message(){
+
+    }
+
+    public Message(String messageContent, Date messageTime) {
+        this.messageContent = messageContent;
+        this.messageTime = messageTime;
+    }
 }
