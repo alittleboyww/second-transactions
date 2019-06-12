@@ -4,6 +4,8 @@ import com.second.hand.transactions.commands.transform.impl.StringToAddMessage;
 import com.second.hand.transactions.model.requestparam.AddMessageRequestParam;
 import com.second.hand.transactions.service.MessageService;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MessageController {
+    Logger logger = LoggerFactory.getLogger(MessageController.class);
+
+
     @Autowired
     private MessageService messageService;
     @PostMapping("/addMessage")
     public JSONObject message(@RequestParam("message") String message ){
+        logger.info("打印参数信息" + message);
         AddMessageRequestParam requestParam = StringToAddMessage.analysisRequestParam(message);
+        logger.info("解析后的参数下信息" + requestParam);
         JSONObject jsonObject = messageService.addMessage(requestParam);
         return jsonObject;
     }
