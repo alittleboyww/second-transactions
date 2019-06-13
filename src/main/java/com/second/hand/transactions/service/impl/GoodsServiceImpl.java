@@ -50,6 +50,7 @@ public class GoodsServiceImpl implements GoodsService {
         return pageInfo;
     }
 
+    @Transactional
     @Override
     public JSONObject goodsDetail(int goodsId,String userId) {
         Goods goods = goodsMapper.selectById(goodsId);

@@ -15,6 +15,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
@@ -114,6 +115,7 @@ public class UserServiceImpl implements UserService {
         return jsonObject;
     }
 
+    @Transactional
     @Override
     public JSONObject changePassword(ChangePasswordRequestParam requestParam) {
         JSONObject jsonObject = checkUser(requestParam.getId(), requestParam.getPassword());
