@@ -40,6 +40,7 @@ public class StringToAddGoods extends StringToBaseRequestParam<AddGoodsRequestPa
         analysedObject.setType(jsonObject.getString(GoodsRequestParamConstant.TYPE));
         Date date = new Date(jsonObject.getLong(GoodsRequestParamConstant.UP_TIME));
         analysedObject.setUpTime(date);
+        System.out.println(jsonObject.get(GoodsRequestParamConstant.TAGS).getClass());
         analysedObject.setTags(jsonObject.getJSONArray(GoodsRequestParamConstant.TAGS));
     }
 }

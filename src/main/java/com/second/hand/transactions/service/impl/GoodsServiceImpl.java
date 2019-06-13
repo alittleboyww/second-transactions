@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,6 +80,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     //TODO：应该需要添加事务处理的  查询资料后进行添加
+    @Transactional
     @Override
     public JSONObject addGoods(AddGoodsRequestParam requestParam) {
         JSONObject jsonObject = userService.checkUser(requestParam.getId(), requestParam.getPassword());

@@ -2,6 +2,7 @@ package com.second.hand.transactions;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Created with IDEA
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Time:9:22
  */
 @SpringBootApplication
+@EnableTransactionManagement
 public class TransactionsApplication {
     public static void main(String[] args) {
         SpringApplication.run(TransactionsApplication.class, args);
