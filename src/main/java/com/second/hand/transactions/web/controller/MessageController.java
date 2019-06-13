@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,10 +26,8 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
     @PostMapping("/addMessage")
-    public JSONObject message(@RequestParam("message") String message ){
-        logger.info("打印参数信息" + message);
+    public JSONObject message(@RequestParam("message") String message){
         AddMessageRequestParam requestParam = StringToAddMessage.analysisRequestParam(message);
-        logger.info("解析后的参数下信息" + requestParam);
         JSONObject jsonObject = messageService.addMessage(requestParam);
         return jsonObject;
     }

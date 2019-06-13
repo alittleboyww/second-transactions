@@ -36,4 +36,15 @@ public class Goods implements Serializable {
     private List<UserMessage> userMessages;
 
     private User user;
+
+    public Goods(){
+
+    }
+
+    public Goods(String goodsTitle, String imagePath, String goodsDesc, Date upTime) {
+        this.goodsTitle = goodsTitle;
+        this.imagePath = imagePath;
+        this.goodsDesc = goodsDesc;
+        this.upTime = upTime;
+    }
 }

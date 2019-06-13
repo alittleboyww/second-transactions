@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -369,6 +370,32 @@ public class TransactionsApplicationTest {
         jsonObject.put("messageContent","wohaoxihau");
         String loginInfo = mvc.perform(MockMvcRequestBuilders.post("/addMessage").contentType(MediaType.APPLICATION_JSON_UTF8)
                 .param("message", jsonObject.toString()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(loginInfo);
+    }
+
+
+    //测试添加商品
+    @Test
+    public void addGoods() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id","8000116159");
+        jsonObject.put("password","123456");
+        jsonObject.put("goodsTitle","插入标题");
+        jsonObject.put("goodsDesc","插入描述");
+        //jsonObject.put("imagePath","");
+        jsonObject.put("type","");
+        jsonObject.put("imageStr","");
+        List<String> list = new ArrayList<>();
+        list.add("嘻嘻");
+        list.add("呵呵");
+        jsonObject.put("tags",list);
+        jsonObject.put("upTime",new Date().getTime());
+
+        String loginInfo = mvc.perform(MockMvcRequestBuilders.post("/addGoods").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .param("goodsInfo", jsonObject.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn().getResponse().getContentAsString();

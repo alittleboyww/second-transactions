@@ -58,9 +58,12 @@ public interface GoodsMapper {
     Message getMessageByGoodsId(@Param("id") Integer id);
 
     @Insert("insert into goods(goods_title,image_path,goods_desc,up_time) values(#{goodsTitle},#{imagePath},#{goodsDesc},#{upTime})")
-    void insert(Goods goods);
+    //插入商品返回id
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int insert(Goods goods);
 
     @Insert("insert into goods_tag(goods_id,tag_id) values(#{goodsId},#{tagId})")
+    //插入商品后 需要与 tag建立关联
     void insertGoodsTag(@Param("goodsId") int goodsId, @Param("tagId") int tagId);
 
 
@@ -80,5 +83,6 @@ public interface GoodsMapper {
 
     @Select("select count(1) from goods order by up_time desc")
     int goodsCount();
+
 
 }

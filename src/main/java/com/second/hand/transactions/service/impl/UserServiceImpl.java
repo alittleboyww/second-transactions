@@ -219,14 +219,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public com.alibaba.fastjson.JSONObject collectList(String userId) {
         List<Goods> goods = userMapper.collectList(userId);
-
         com.alibaba.fastjson.JSONObject jsonObject = new com.alibaba.fastjson.JSONObject();
         jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
         return jsonObject;
     }
 
     //检查用户逻辑
-    private JSONObject checkUser(String id, String password){
+    public JSONObject checkUser(String id, String password){
         String returnPassword = password;
         //登录需要返回的json对象
         JSONObject jsonObject = new JSONObject();

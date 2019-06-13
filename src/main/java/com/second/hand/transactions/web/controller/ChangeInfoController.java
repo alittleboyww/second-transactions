@@ -64,21 +64,25 @@ public class ChangeInfoController {
     @PostMapping("/changeImage")
     public JSONObject changeImage(@RequestParam("changeImage") String changeImage, HttpServletRequest request) throws FileNotFoundException {
         ChangeImageRequestParam requestParam = StringToChangeImage.getInstance().analysisRequestParam(changeImage);
+        requestParam.setImagePath(saveImage(requestParam.getType(),requestParam.getImageStr(),request));
+        JSONObject jsonObject = userService.changeImage(requestParam);
+        return jsonObject;
+    }
+
+    public String saveImage(String type,String imageStr,HttpServletRequest request){
         //文件名
-        String fileName = UUID.randomUUID() + requestParam.getType();
+        String fileName = UUID.randomUUID() + type;
         //存储文件的路径
         File file = new File(uploadPath);
         if(!file.exists()){
             file.mkdirs();
         }
         String filePath = file.getPath() + File.separator + fileName;
-        ImageTransformUtils.GenerateImage(requestParam.getImageStr(),filePath);
+        ImageTransformUtils.GenerateImage(imageStr,filePath);
 
         String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + PathConstant.UPLOAD_IMAGE + fileName;
-        //设置图片存储得路径
-        requestParam.setImagePath(url);
-
-        JSONObject jsonObject = userService.changeImage(requestParam);
-        return jsonObject;
+        return url;
     }
 }
+
+

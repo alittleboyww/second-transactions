@@ -76,4 +76,7 @@ public interface UserMapper {
             @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
     })
     List<Goods> collectList(@Param("userId") String userId);
+
+    @Insert("insert into user_goods(user_id,goods_id) values(#{userId},#{goodsId})")
+    void insertUserGoods(@Param("userId") String userId,@Param("goodsId") int goodsId);
 }

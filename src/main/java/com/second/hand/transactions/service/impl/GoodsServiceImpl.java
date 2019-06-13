@@ -6,9 +6,13 @@ import com.second.hand.transactions.commands.constant.ResultConstant;
 import com.second.hand.transactions.commands.utils.DateTransfer;
 import com.second.hand.transactions.commands.utils.JsonDateValueProcessor;
 import com.second.hand.transactions.mapper.GoodsMapper;
+import com.second.hand.transactions.mapper.TagMapper;
 import com.second.hand.transactions.mapper.UserMapper;
 import com.second.hand.transactions.model.Goods;
+import com.second.hand.transactions.model.Tag;
+import com.second.hand.transactions.model.requestparam.AddGoodsRequestParam;
 import com.second.hand.transactions.service.GoodsService;
+import com.second.hand.transactions.service.UserService;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,10 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private TagMapper tagMapper;
+    @Autowired
+    private UserService userService;
 
     @Override
     public PageInfo selectList(Integer pageNumber, Integer pageSize) {
@@ -66,6 +74,31 @@ public class GoodsServiceImpl implements GoodsService {
             }
         }
         JSONObject jsonObject = JSONObject.fromObject(goodsHashMap,jsonConfig);
+        return jsonObject;
+    }
+
+
+    //TODO：应该需要添加事务处理的  查询资料后进行添加
+    @Override
+    public JSONObject addGoods(AddGoodsRequestParam requestParam) {
+        JSONObject jsonObject = userService.checkUser(requestParam.getId(), requestParam.getPassword());
+        Goods goods = new Goods(requestParam.getGoodsTitle(),requestParam.getImagePath(),requestParam.getGoodsDesc(),requestParam.getUpTime());
+
+        //插入商品 并返回商品id
+        goodsMapper.insert(goods);
+        List<Tag> tags = tagMapper.select();
+        List<String> tagsStr = requestParam.getTags();
+        //建立商品标签联系
+        for (String tagStr : tagsStr) {
+            for (Tag tag : tags) {
+                if (tag.getTagName().equals(tagStr)){
+                    goodsMapper.insertGoodsTag(goods.getId(),tag.getId());
+                }
+            }
+        }
+        //建立商品用户联系
+        userMapper.insertUserGoods(requestParam.getId(),goods.getId());
+        jsonObject.put(ResultConstant.RESULT_MESSAGE,ResultConstant.RESULT_SUCCESS);
         return jsonObject;
     }
 }
