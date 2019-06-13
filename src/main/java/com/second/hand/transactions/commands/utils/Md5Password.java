@@ -3,6 +3,9 @@ package com.second.hand.transactions.commands.utils;
 import net.sf.json.JSONObject;
 import org.springframework.util.DigestUtils;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created with IDEA
  * author:G.B.Monkey
@@ -19,8 +22,15 @@ public class Md5Password {
         result(jsonObject);
         System.out.println(jsonObject.getString("2"));*/
 
-        String imageStr = ImageTransformUtils.getImageStr("E:\\Android\\image\\Absolutely.jpg");
+        //String imageStr = ImageTransformUtils.getImageStr("E:\\Android\\image\\Absolutely.jpg");
 
+
+        String string = "[电脑外设, 书籍, 免费]";
+        String substring = string.substring(1, string.length()-1);
+
+        String[] strings = substring.split(",");
+        List<String> stringList = Arrays.asList(strings);
+        System.out.println(stringList);
     }
 
 

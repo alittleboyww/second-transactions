@@ -7,7 +7,9 @@ import com.second.hand.transactions.model.requestparam.AddMessageRequestParam;
 import com.second.hand.transactions.model.requestparam.ChangeWeChatRequestParam;
 import net.sf.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IDEA
@@ -40,8 +42,10 @@ public class StringToAddGoods extends StringToBaseRequestParam<AddGoodsRequestPa
         analysedObject.setType(jsonObject.getString(GoodsRequestParamConstant.TYPE));
         Date date = new Date(jsonObject.getLong(GoodsRequestParamConstant.UP_TIME));
         analysedObject.setUpTime(date);
-        System.out.println(jsonObject.get(GoodsRequestParamConstant.TAGS).getClass());
-        System.out.println(jsonObject.getString(GoodsRequestParamConstant.TAGS));
-        analysedObject.setTags(jsonObject.getJSONArray(GoodsRequestParamConstant.TAGS));
+        String string = jsonObject.getString(GoodsRequestParamConstant.TAGS);
+        String substring = string.substring(1, string.length()-1);
+        String[] strings = substring.split(",");
+        List<String> stringList = Arrays.asList(strings);
+        analysedObject.setTags(stringList);
     }
 }
