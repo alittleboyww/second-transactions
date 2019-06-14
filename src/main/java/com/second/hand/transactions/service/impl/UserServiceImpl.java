@@ -251,6 +251,14 @@ public class UserServiceImpl implements UserService {
         return jsonObject;
     }
 
+    @Override
+    public com.alibaba.fastjson.JSONObject publicGoods(String userId) {
+        List<Goods> goods = userMapper.userGoods(userId);
+        com.alibaba.fastjson.JSONObject jsonObject = new com.alibaba.fastjson.JSONObject();
+        jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
+        return jsonObject;
+    }
+
     //返回修改后得用户得信息
     private JSONObject userInfo(JSONObject jsonObject, BaseRequestParam requestParam){
         User user = userMapper.selectById(requestParam.getId());

@@ -58,4 +58,7 @@ public interface UserService {
 
     //检查用户
     JSONObject checkUser(String id, String password);
+
+    //用户发布商品
+    com.alibaba.fastjson.JSONObject publicGoods(String userId);
 }

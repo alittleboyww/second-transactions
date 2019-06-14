@@ -79,4 +79,11 @@ public interface UserMapper {
 
     @Insert("insert into user_goods(user_id,goods_id) values(#{userId},#{goodsId})")
     void insertUserGoods(@Param("userId") String userId,@Param("goodsId") int goodsId);
+
+    @Select("select g.id,g.goods_title,g.goods_desc,g.image_path,g.up_time from goods as g left join user_goods as ug on g.id=ug.goods_id where ug.user_id=#{userId}")
+    @Results({
+            @Result(column = "id",property = "id"),
+            @Result(column = "id",property = "tags",javaType = List.class,many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
+    })
+    List<Goods> userGoods(@Param("userId")String userId);
 }

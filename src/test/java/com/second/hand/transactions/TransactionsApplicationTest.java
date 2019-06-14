@@ -401,4 +401,10 @@ public class TransactionsApplicationTest {
                 .andReturn().getResponse().getContentAsString();
         System.out.println(loginInfo);
     }
+
+    @Test
+    public void testUserGoods() throws Exception {
+        List<Goods> goods = userMapper.userGoods("8000116159");
+        System.out.println(goods);
+    }
 }
