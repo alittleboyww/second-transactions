@@ -7,7 +7,7 @@ package com.second.hand.transactions.commands.constant;
  * Time:15:50
  */
 public class GoodsRequestParamConstant {
-    public static final String ID = "id";
+    public static final String ID = "goodsId";
     //商品标题
     public static final String GOODS_TITLE="goodsTitle";
     //商品描述
