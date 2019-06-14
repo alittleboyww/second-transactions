@@ -1,11 +1,10 @@
 package com.second.hand.transactions.mapper;
 
 import com.second.hand.transactions.model.Message;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created with IDEA
@@ -23,4 +22,7 @@ public interface MessageMapper {
 
     @Insert("insert into goods_message(user_id,goods_id,message_id) values(#{userId},#{goodsId},#{messageId})")
     void insertMessage(@Param("userId") String userId, @Param("goodsId") int goodsId, @Param("messageId") int messageId);
+
+    @DeleteProvider(type = Provider.class,method = "batchDelete")
+    void batchMessage(List<Integer> integers);
 }

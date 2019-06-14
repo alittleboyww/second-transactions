@@ -22,18 +22,15 @@ public class User implements Serializable {
     private String id;
 
     //用户手机号
-    @Pattern(regexp = RegexpUtils.PHONE,message = "手机格式不正确")
     private String phone;
 
     //用户微信
     private String wechat;
 
     //用户密码
-    @JsonIgnore
     private String password;
 
     //用户名
-    @Length(min = 6,max = 20,message = "用户名必须介于6-20位之间")
     private String username;
 
     //头像路径
@@ -41,4 +38,17 @@ public class User implements Serializable {
 
     //留言列表
     private List<Message> messages;
+
+    public User(){
+
+    }
+
+    public User(String id,String phone, String wechat, String password, String username, String imagePath) {
+        this.phone = phone;
+        this.wechat = wechat;
+        this.password = password;
+        this.username = username;
+        this.imagePath = imagePath;
+        this.id = id;
+    }
 }

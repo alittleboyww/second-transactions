@@ -1,10 +1,13 @@
 package com.second.hand.transactions.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.second.hand.transactions.commands.constant.PathConstant;
 import com.second.hand.transactions.commands.constant.ResultConstant;
 import com.second.hand.transactions.commands.constant.UserRequestParamConstant;
 import com.second.hand.transactions.commands.utils.JsonDateValueProcessor;
 import com.second.hand.transactions.commands.validate.BeanValidator;
+import com.second.hand.transactions.mapper.GoodsMapper;
+import com.second.hand.transactions.mapper.MessageMapper;
 import com.second.hand.transactions.mapper.UserMapper;
 import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.model.User;
@@ -14,10 +17,12 @@ import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +37,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Value("${web.upload-path}")
+    private String uploadPath;
+    @Autowired
+    private MessageMapper messageMapper;
 
+    @Autowired
+    private GoodsMapper goodsMapper;
     //TODO:保持用户，由于没有登录 所以理论上这里也可以删掉
     @Override
     public JSONObject save(User user) {
@@ -256,6 +267,37 @@ public class UserServiceImpl implements UserService {
         List<Goods> goods = userMapper.userGoods(userId);
         com.alibaba.fastjson.JSONObject jsonObject = new com.alibaba.fastjson.JSONObject();
         jsonObject.put(ResultConstant.RESULT_MESSAGE,goods);
+        return jsonObject;
+    }
+
+    //删除发布的商品
+    @Transactional
+    @Override
+    public JSONObject cancelGoods(String userId, Integer goodsId) {
+        //删除商品标签表中的 该商品建立的联系
+        goodsMapper.deleteTag(goodsId);
+        //删除该商品与用户建立的联系
+        userMapper.deleteUserGoods(userId,goodsId);
+        //删除该商品的留言
+        List<Integer> messageList = goodsMapper.messageList(goodsId);
+        goodsMapper.deleteMessage(goodsId);
+        messageMapper.batchMessage(messageList);
+
+        //查询该商品获得指定的商品的图片路径
+        Goods goods = goodsMapper.select(goodsId);
+        String[] split = goods.getImagePath().split("/");
+        File file = new File(uploadPath);
+        File[] files = file.listFiles();
+        //删除对应的图片
+        for (File file1 : files) {
+            if (file1.getName().equals(split[split.length - 1])){
+                file1.delete();
+            }
+        }
+        //删除商品表
+        goodsMapper.delete(goodsId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ResultConstant.RESULT_MESSAGE,ResultConstant.RESULT_SUCCESS);
         return jsonObject;
     }
 

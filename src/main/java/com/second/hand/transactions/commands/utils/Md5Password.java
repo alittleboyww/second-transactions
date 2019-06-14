@@ -25,12 +25,15 @@ public class Md5Password {
         //String imageStr = ImageTransformUtils.getImageStr("E:\\Android\\image\\Absolutely.jpg");
 
 
-        String string = "[电脑外设, 书籍, 免费]";
+        /*String string = "[电脑外设, 书籍, 免费]";
         String substring = string.substring(1, string.length()-1);
 
         String[] strings = substring.split(",");
         List<String> stringList = Arrays.asList(strings);
-        System.out.println(stringList);
+        System.out.println(stringList);*/
+        String s = "http://120.79.52.40:8888/upload/d431fef7-101c-4b21-82e7-85904a13e7b7.jpg";
+        String[] split = s.split("/");
+        System.out.println(split[split.length - 1]);
     }
 
 

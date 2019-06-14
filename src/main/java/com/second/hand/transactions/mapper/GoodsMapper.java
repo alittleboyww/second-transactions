@@ -84,5 +84,18 @@ public interface GoodsMapper {
     @Select("select count(1) from goods order by up_time desc")
     int goodsCount();
 
+    @Delete("delete from goods where id=#{goodsId}")
+    void delete(@Param("goodsId")Integer goodsId);
 
+    @Delete("delete from goods_tag where goods_id=#{goodsId}")
+    void deleteTag(@Param("goodsId") Integer goodsId);
+
+    @Select("select * from goods where id=#{id}")
+    Goods select(@Param("id")Integer id);
+
+    @Delete("delete from goods_message where goods_id=#{goodsId}")
+    void deleteMessage(@Param("goodsId")Integer goodsId);
+
+    @Select("select message_id from goods_message where goods_id=#{goodsId}")
+    List<Integer> messageList(@Param("goodsId") Integer goodsId);
 }

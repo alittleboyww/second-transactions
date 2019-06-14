@@ -86,4 +86,7 @@ public interface UserMapper {
             @Result(column = "id",property = "tags",javaType = List.class,many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
     })
     List<Goods> userGoods(@Param("userId")String userId);
+
+    @Delete("delete from user_goods where user_id=#{userId} and goods_id=#{goodsId}")
+    void deleteUserGoods(@Param("userId")String userId, @Param("goodsId")Integer goodsId);
 }

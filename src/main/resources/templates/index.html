@@ -6,6 +6,9 @@
     <title>thymeleaf</title>
 </head>
 <body>
-index
+<form action="/import" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button type="submit">导入</button>
+</form>
 </body>
 </html>

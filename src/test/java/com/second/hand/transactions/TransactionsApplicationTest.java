@@ -407,4 +407,14 @@ public class TransactionsApplicationTest {
         List<Goods> goods = userMapper.userGoods("8000116159");
         System.out.println(goods);
     }
+
+    @Test
+    public void testCancel() throws Exception {
+        String loginInfo = mvc.perform(MockMvcRequestBuilders.get("/cancelPublic").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .param("userId", "8000116159").param("goodsId","1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(loginInfo);
+    }
 }
