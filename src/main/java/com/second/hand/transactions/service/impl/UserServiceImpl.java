@@ -273,31 +273,33 @@ public class UserServiceImpl implements UserService {
     //删除发布的商品
     @Transactional
     @Override
-    public JSONObject cancelGoods(String userId, Integer goodsId) {
-        //删除商品标签表中的 该商品建立的联系
-        goodsMapper.deleteTag(goodsId);
-        //删除该商品与用户建立的联系
-        userMapper.deleteUserGoods(userId,goodsId);
-        //删除该商品的留言
-        List<Integer> messageList = goodsMapper.messageList(goodsId);
-        goodsMapper.deleteMessage(goodsId);
-        messageMapper.batchMessage(messageList);
+    public JSONObject cancelGoods(String userId,String password, Integer goodsId) {
+        JSONObject jsonObject = checkUser(userId, password);
+        if(jsonObject.getInt(ResultConstant.RESULT_RESULT) == 1){
+            //删除商品标签表中的 该商品建立的联系
+            goodsMapper.deleteTag(goodsId);
+            //删除该商品与用户建立的联系
+            userMapper.deleteUserGoods(userId,goodsId);
+            //删除该商品的留言
+            List<Integer> messageList = goodsMapper.messageList(goodsId);
+            goodsMapper.deleteMessage(goodsId);
+            messageMapper.batchMessage(messageList);
 
-        //查询该商品获得指定的商品的图片路径
-        Goods goods = goodsMapper.select(goodsId);
-        String[] split = goods.getImagePath().split("/");
-        File file = new File(uploadPath);
-        File[] files = file.listFiles();
-        //删除对应的图片
-        for (File file1 : files) {
-            if (file1.getName().equals(split[split.length - 1])){
-                file1.delete();
+            //查询该商品获得指定的商品的图片路径
+            Goods goods = goodsMapper.select(goodsId);
+            String[] split = goods.getImagePath().split("/");
+            File file = new File(uploadPath);
+            File[] files = file.listFiles();
+            //删除对应的图片
+            for (File file1 : files) {
+                if (file1.getName().equals(split[split.length - 1])){
+                    file1.delete();
+                }
             }
+            //删除商品表
+            goodsMapper.delete(goodsId);
+            jsonObject.put(ResultConstant.RESULT_MESSAGE,ResultConstant.RESULT_SUCCESS);
         }
-        //删除商品表
-        goodsMapper.delete(goodsId);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(ResultConstant.RESULT_MESSAGE,ResultConstant.RESULT_SUCCESS);
         return jsonObject;
     }
 

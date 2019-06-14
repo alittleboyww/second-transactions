@@ -63,5 +63,5 @@ public interface UserService {
     com.alibaba.fastjson.JSONObject publicGoods(String userId);
 
     //用户删除发布的商品
-    JSONObject cancelGoods(String userId,Integer goodsId);
+    JSONObject cancelGoods(String userId,String password,Integer goodsId);
 }

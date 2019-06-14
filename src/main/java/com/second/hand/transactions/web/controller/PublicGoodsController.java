@@ -1,6 +1,8 @@
 package com.second.hand.transactions.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.second.hand.transactions.commands.constant.GoodsRequestParamConstant;
+import com.second.hand.transactions.commands.constant.UserRequestParamConstant;
 import com.second.hand.transactions.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +28,13 @@ public class PublicGoodsController {
         return jsonObject;
     }
 
-    @GetMapping("/cancelPublic")
-    public net.sf.json.JSONObject cancelPublic(@RequestParam("userId") String userId,@RequestParam("goodsId") Integer goodsId){
-        net.sf.json.JSONObject jsonObject = userService.cancelGoods(userId, goodsId);
-        return jsonObject;
+    @PostMapping("/cancelPublic")
+    public net.sf.json.JSONObject cancelPublic(@RequestParam("cancelInfo")String cancel){
+        net.sf.json.JSONObject jsonObject = net.sf.json.JSONObject.fromObject(cancel);
+        String userId = jsonObject.getString(UserRequestParamConstant.ID);
+        String password = jsonObject.getString(UserRequestParamConstant.PASSWORD);
+        Integer goodsId = jsonObject.getInt(GoodsRequestParamConstant.ID);
+        net.sf.json.JSONObject jsonObject1 = userService.cancelGoods(userId,password, goodsId);
+        return jsonObject1;
     }
 }
