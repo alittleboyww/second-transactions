@@ -44,7 +44,7 @@ public class StringToAddGoods extends StringToBaseRequestParam<AddGoodsRequestPa
         analysedObject.setUpTime(date);
         String string = jsonObject.getString(GoodsRequestParamConstant.TAGS);
         String substring = string.substring(1, string.length()-1);
-        String[] strings = substring.split(",");
+        String[] strings = substring.split(", ");
         List<String> stringList = Arrays.asList(strings);
         analysedObject.setTags(stringList);
     }
