@@ -4,6 +4,8 @@ import com.second.hand.transactions.service.UserService;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class UserCollectController {
+    Logger logger = LoggerFactory.getLogger(UserCollectController.class);
+
     @Autowired
     private UserService userService;
 
@@ -31,6 +35,7 @@ public class UserCollectController {
     //取消收藏
     @GetMapping("/cancelCollect")
     public JSONObject cancelCollect(@RequestParam("userId")String userId, @RequestParam("goodsId") int goodsId){
+        logger.info(userId + " " + goodsId);
         JSONObject jsonObject = userService.cancelCollect(userId,goodsId);
         return jsonObject;
     }
