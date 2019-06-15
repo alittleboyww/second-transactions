@@ -34,7 +34,6 @@ import java.util.List;
  */
 @Controller
 public class GoodsServiceImpl implements GoodsService {
-    Logger logger = LoggerFactory.getLogger(GoodsServiceImpl.class);
     @Autowired
     private GoodsMapper goodsMapper;
     @Autowired
@@ -95,14 +94,10 @@ public class GoodsServiceImpl implements GoodsService {
         List<Tag> tags = tagMapper.select();
         List<String> tagsStr = requestParam.getTags();
 
-        logger.info(tagsStr.toString());
         //建立商品标签联系
         for (String tagStr : tagsStr) {
-            logger.info(tagStr);
             for (Tag tag : tags) {
-                logger.info(tag.getTagName());
                 if (tag.getTagName().equals(tagStr)){
-                    logger.info(tagStr);
                     goodsMapper.insertGoodsTag(goods.getId(),tag.getId());
                 }
             }
