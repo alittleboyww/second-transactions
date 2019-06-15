@@ -25,6 +25,12 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
+
+    /**
+     * 添加留言信息
+     * @param message 留言信息对应的内容
+     * @return
+     */
     @PostMapping("/addMessage")
     public JSONObject message(@RequestParam("message") String message){
         AddMessageRequestParam requestParam = StringToAddMessage.analysisRequestParam(message);

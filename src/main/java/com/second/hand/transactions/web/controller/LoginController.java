@@ -23,9 +23,13 @@ public class LoginController {
     private UserService userService;
 
 
+    /**
+     * 登录
+     * @param loginInfo 用户登录信息
+     * @return
+     */
     @PostMapping("/login")
     public JSONObject login(@RequestParam("loginInfo") String loginInfo){
-
         LoginRequestParam loginRequestParam = StringToLoginInfo.getInstance().analysisRequestParam(loginInfo);
         JSONObject jsonObject = userService.login(loginRequestParam);
         return jsonObject;

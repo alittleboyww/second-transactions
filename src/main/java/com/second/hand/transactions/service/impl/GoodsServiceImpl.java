@@ -15,6 +15,8 @@ import com.second.hand.transactions.service.GoodsService;
 import com.second.hand.transactions.service.UserService;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ import java.util.List;
  */
 @Controller
 public class GoodsServiceImpl implements GoodsService {
+    Logger logger = LoggerFactory.getLogger(GoodsServiceImpl.class);
     @Autowired
     private GoodsMapper goodsMapper;
     @Autowired
@@ -91,10 +94,13 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMapper.insert(goods);
         List<Tag> tags = tagMapper.select();
         List<String> tagsStr = requestParam.getTags();
+
+        logger.info(tagsStr.toString());
         //建立商品标签联系
         for (String tagStr : tagsStr) {
             for (Tag tag : tags) {
                 if (tag.getTagName().equals(tagStr)){
+                    logger.info(tagStr);
                     goodsMapper.insertGoodsTag(goods.getId(),tag.getId());
                 }
             }

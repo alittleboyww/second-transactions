@@ -19,6 +19,13 @@ public class ImportUserDataController {
     @Autowired
     private ImportDataService importDataService;
 
+    /**
+     * 导入用户信息
+     * @param file
+     * @param username
+     * @param password
+     * @return
+     */
     @PostMapping("/import")
     public String importData(@RequestParam("file")MultipartFile file,@RequestParam("username")String username,@RequestParam("password") String password){
         String result = "error";

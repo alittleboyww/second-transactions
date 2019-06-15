@@ -35,20 +35,29 @@ public class GoodsDetailController {
     @Autowired
     private ChangeInfoController changeInfoController;
 
+    /**
+     * 查看商品详情
+     * @param goodsId 商品id
+     * @param userId  用户id
+     * @return
+     */
     @GetMapping("/goodsDetail")
     public JSONObject goodsDetail(@RequestParam("goodsId") Integer goodsId,@RequestParam("userId")String userId){
         JSONObject jsonObject = goodsService.goodsDetail(goodsId,userId);
         return jsonObject;
     }
 
-
+    /**
+     * 添加商品
+     * @param goodsInfo 商品信息
+     * @param request
+     * @return
+     */
     @PostMapping("/addGoods")
     public JSONObject goodsDetail(@RequestParam("goodsInfo") String goodsInfo, HttpServletRequest request){
-        System.out.println(goodsInfo);
         AddGoodsRequestParam requestParam = StringToAddGoods.getInstance().analysisRequestParam(goodsInfo);
         //如果上传图片不为空则 不需要设置路径
         if(requestParam.getType() != null && !requestParam.getType().equals("")){
-            logger.info("上传商品插入图片");
             //设置图片存储得路径
             requestParam.setImagePath(changeInfoController.saveImage(requestParam.getType(),requestParam.getImageStr(),request));
         }

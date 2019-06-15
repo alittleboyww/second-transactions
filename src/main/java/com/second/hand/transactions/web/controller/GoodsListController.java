@@ -22,6 +22,12 @@ public class GoodsListController {
     @Autowired
     private GoodsService goodsService;
 
+    /**
+     * 商品列表
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
     @GetMapping("/goodsList")
     public PageInfo<Goods> goodsList(@RequestParam("pageNumber") Integer pageNumber, @RequestParam("pageSize") Integer pageSize){
         PageInfo<Goods> pageInfo = goodsService.selectList(pageNumber, pageSize);

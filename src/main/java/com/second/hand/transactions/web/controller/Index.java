@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class Index {
 
+    /**
+     * 用于上传
+     * @return
+     */
     @GetMapping("/index")
     public String index(){
         return "index";

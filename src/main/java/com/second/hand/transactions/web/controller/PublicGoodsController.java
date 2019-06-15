@@ -22,12 +22,22 @@ public class PublicGoodsController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 以发布商品列表
+     * @param userId  用户id
+     * @return
+     */
     @GetMapping("/publicGoodsList")
     public com.alibaba.fastjson.JSONObject publicGoods(@RequestParam("userId") String userId){
         JSONObject jsonObject = userService.publicGoods(userId);
         return jsonObject;
     }
 
+    /**
+     * 取消发布
+     * @param cancel 取消发布对应的信息
+     * @return
+     */
     @PostMapping("/cancelPublic")
     public net.sf.json.JSONObject cancelPublic(@RequestParam("cancelInfo")String cancel){
         net.sf.json.JSONObject jsonObject = net.sf.json.JSONObject.fromObject(cancel);
