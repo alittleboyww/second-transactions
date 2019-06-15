@@ -98,7 +98,9 @@ public class GoodsServiceImpl implements GoodsService {
         logger.info(tagsStr.toString());
         //建立商品标签联系
         for (String tagStr : tagsStr) {
+            logger.info(tagStr);
             for (Tag tag : tags) {
+                logger.info(tag.getTagName());
                 if (tag.getTagName().equals(tagStr)){
                     logger.info(tagStr);
                     goodsMapper.insertGoodsTag(goods.getId(),tag.getId());

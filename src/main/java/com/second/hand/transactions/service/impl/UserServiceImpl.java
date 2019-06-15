@@ -283,7 +283,7 @@ public class UserServiceImpl implements UserService {
             //删除该商品的留言
             List<Integer> messageList = goodsMapper.messageList(goodsId);
             //如果留言为空或者留言的大小为0 则不需要进行删除
-            if (messageList == null || messageList.size() == 0){
+            if (messageList != null && messageList.size() != 0){
                 goodsMapper.deleteMessage(goodsId);
                 messageMapper.batchMessage(messageList);
             }
