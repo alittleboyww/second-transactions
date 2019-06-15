@@ -282,9 +282,11 @@ public class UserServiceImpl implements UserService {
             userMapper.deleteUserGoods(userId,goodsId);
             //删除该商品的留言
             List<Integer> messageList = goodsMapper.messageList(goodsId);
-            goodsMapper.deleteMessage(goodsId);
-            messageMapper.batchMessage(messageList);
-
+            //如果留言为空或者留言的大小为0 则不需要进行删除
+            if (messageList == null || messageList.size() == 0){
+                goodsMapper.deleteMessage(goodsId);
+                messageMapper.batchMessage(messageList);
+            }
             //查询该商品获得指定的商品的图片路径
             Goods goods = goodsMapper.select(goodsId);
             String[] split = goods.getImagePath().split("/");
@@ -293,6 +295,7 @@ public class UserServiceImpl implements UserService {
             //删除对应的图片
             for (File file1 : files) {
                 if (file1.getName().equals(split[split.length - 1])){
+                    System.out.println(file.getPath());
                     file1.delete();
                 }
             }
