@@ -1,6 +1,7 @@
 package com.second.hand.transactions.service;
 
 import com.github.pagehelper.PageInfo;
+import com.second.hand.transactions.model.Goods;
 import com.second.hand.transactions.model.requestparam.AddGoodsRequestParam;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -21,4 +22,7 @@ public interface GoodsService {
 
     //添加商品
     JSONObject addGoods(AddGoodsRequestParam requestParam);
+
+    //查询商品
+    PageInfo<Goods> searchGoods(String tag, String text, Integer pageNumber, Integer pageSize);
 }

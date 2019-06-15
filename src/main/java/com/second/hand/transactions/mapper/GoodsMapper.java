@@ -4,6 +4,7 @@ import com.second.hand.transactions.model.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -67,14 +68,6 @@ public interface GoodsMapper {
     void insertGoodsTag(@Param("goodsId") int goodsId, @Param("tagId") int tagId);
 
 
-    @Select("select * from goods order by up_time desc")
-    @Results({
-            @Result(column = "id", property = "id"),
-            @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
-            @Result(column = "id", property = "user", javaType = User.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserByGoodsId")),
-    })
-    List<Goods> goodsList();
-
     @Select("select u.username,u.image_path from user as u left join user_goods as ug on u.id=ug.user_id left join goods as g on g.id=ug.goods_id where g.id=#{id}")
     User getUserByGoodsId(@Param("id") int id);
 
@@ -98,4 +91,29 @@ public interface GoodsMapper {
 
     @Select("select message_id from goods_message where goods_id=#{goodsId}")
     List<Integer> messageList(@Param("goodsId") Integer goodsId);
+
+    @Select("select * from goods order by up_time desc")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
+            @Result(column = "id", property = "user", javaType = User.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserByGoodsId")),
+    })
+    List<Goods> goodsList();
+
+    @Select("select * from goods where id=#{id} order by up_time desc")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
+            @Result(column = "id", property = "user", javaType = User.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserByGoodsId")),
+    })
+    List<Goods> selectGoodsById(@Param("id")String id);
+
+    //通过标签查询商品
+    @Select("select g.id,g.goods_title,g.image_path,g.goods_desc,g.up_time from goods as g left join goods_tag as gt on g.id=gt.goods_id left join tag as t on t.id=gt.tag_id where t.id=#{tagId}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "id", property = "tags", javaType = List.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getTagByGoodsId")),
+            @Result(column = "id", property = "user", javaType = User.class, many = @Many(select = "com.second.hand.transactions.mapper.GoodsMapper.getUserByGoodsId")),
+    })
+    List<Goods> selectGoodsByTag(@Param("tagId")Integer tagId);
 }

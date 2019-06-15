@@ -417,4 +417,12 @@ public class TransactionsApplicationTest {
                 .andReturn().getResponse().getContentAsString();
         System.out.println(loginInfo);
     }
+
+
+    //测试通过标签查询商品
+    @Test
+    public void testSearchGoods(){
+        List<Goods> goods = goodsMapper.selectGoodsByTag(2);
+        System.out.println(goods);
+    }
 }

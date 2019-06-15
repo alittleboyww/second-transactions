@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +95,7 @@ public class GoodsServiceImpl implements GoodsService {
         List<Tag> tags = tagMapper.select();
         List<String> tagsStr = requestParam.getTags();
 
-        //建立商品标签联系
+        //建立商品标签联系selectList
         for (String tagStr : tagsStr) {
             for (Tag tag : tags) {
                 if (tag.getTagName().equals(tagStr)){
@@ -106,5 +107,32 @@ public class GoodsServiceImpl implements GoodsService {
         userMapper.insertUserGoods(requestParam.getId(),goods.getId());
         jsonObject.put(ResultConstant.RESULT_MESSAGE,ResultConstant.RESULT_SUCCESS);
         return jsonObject;
+    }
+
+    @Transactional
+    @Override
+    public PageInfo<Goods> searchGoods(String tag,String text,Integer pageNumber,Integer pageSize) {
+        List<Goods> goodsResult = new ArrayList<>();
+        List<Goods> goods;
+        //如果标签选择的是全部
+        if(tag.equals("全部")){
+            goods = goodsMapper.goodsList();
+        }else{
+            int tagId = tagMapper.findTagIdByName(tag);
+            goods = goodsMapper.selectGoodsByTag(tagId);
+        }
+        //需要返回的商品
+        //如果添加的筛选条件不为空
+        if (text != null && goods != null){
+            for (Goods good : goods) {
+                if(good.getGoodsTitle().contains(text)){
+                    goodsResult.add(good);
+                }
+            }
+        }
+        //设置当前页码和当前要显示的数据条数
+        PageHelper.startPage(pageNumber,pageSize);
+        PageInfo<Goods> pageInfo = new PageInfo<>(goodsResult);
+        return pageInfo;
     }
 }

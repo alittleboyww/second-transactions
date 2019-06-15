@@ -1,10 +1,7 @@
 package com.second.hand.transactions.mapper;
 
 import com.second.hand.transactions.model.Tag;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +19,6 @@ public interface TagMapper {
     @Select("select * from tag")
     List<Tag> select();
 
+    @Select("select id from tag where tag_name=#{tagName}")
+    int findTagIdByName(@Param("tagName") String tagName);
 }
