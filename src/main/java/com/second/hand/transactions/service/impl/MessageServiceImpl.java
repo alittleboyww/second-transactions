@@ -37,6 +37,7 @@ public class MessageServiceImpl implements MessageService {
         JSONObject jsonObject = new JSONObject();
         if(messageNum1 > messageNum){
             jsonObject.put(ResultConstant.RESULT_MESSAGE,"用户留言信息更新了");
+            jsonObject.put(ResultConstant.RESULT_RESULT,messageNum1);
         }
         return jsonObject;
     }
