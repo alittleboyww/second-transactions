@@ -11,4 +11,6 @@ import net.sf.json.JSONObject;
  */
 public interface MessageService {
     JSONObject addMessage(AddMessageRequestParam requestParam);
+
+    JSONObject messageNumber(Integer goodsId, String userId, Integer messageNum);
 }

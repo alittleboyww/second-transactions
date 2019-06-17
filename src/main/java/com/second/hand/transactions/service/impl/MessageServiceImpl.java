@@ -1,5 +1,6 @@
 package com.second.hand.transactions.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.second.hand.transactions.commands.constant.ResultConstant;
 import com.second.hand.transactions.mapper.MessageMapper;
 import com.second.hand.transactions.model.Message;
@@ -27,6 +28,16 @@ public class MessageServiceImpl implements MessageService {
         //获取
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ResultConstant.RESULT_MESSAGE,ResultConstant.RESULT_SUCCESS);
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject messageNumber(Integer goodsId, String userId, Integer messageNum) {
+        int messageNum1 = messageMapper.messageNum(goodsId, userId);
+        JSONObject jsonObject = new JSONObject();
+        if(messageNum1 > messageNum){
+            jsonObject.put(ResultConstant.RESULT_MESSAGE,"用户留言信息更新了");
+        }
         return jsonObject;
     }
 }

@@ -25,4 +25,8 @@ public interface MessageMapper {
 
     @DeleteProvider(type = Provider.class,method = "batchDelete")
     void batchMessage(List<Integer> integers);
+
+    //通过用户id和商品id查询对应留言的数量
+    @Select("select count(*) from goods_message where goods_id=#{goodsId} and user_id=#{userId}")
+    int messageNum(@Param("goodsId") Integer goodsId, @Param("userId") String userId);
 }
