@@ -24,10 +24,9 @@ public class InformController {
      * 通过商品用户id 商品id 查询对应留言的数量   前台传出留言的数量
      */
     @GetMapping("/informMessage")
-    public JSONObject informMessage(@RequestParam("userId") String userId,
-                                    @RequestParam("goodsId") Integer goodsId,
+    public JSONObject informMessage(@RequestParam("goodsId") Integer goodsId,
                                     @RequestParam("messageNum") Integer messageNum){
-        JSONObject jsonObject = messageService.messageNumber(goodsId, userId, messageNum);
+        JSONObject jsonObject = messageService.messageNumber(goodsId, messageNum);
         return jsonObject;
     }
 }

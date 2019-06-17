@@ -32,8 +32,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public JSONObject messageNumber(Integer goodsId, String userId, Integer messageNum) {
-        int messageNum1 = messageMapper.messageNum(goodsId, userId);
+    public JSONObject messageNumber(Integer goodsId, Integer messageNum) {
+        int messageNum1 = messageMapper.messageNum(goodsId);
         JSONObject jsonObject = new JSONObject();
         if(messageNum1 > messageNum){
             jsonObject.put(ResultConstant.RESULT_MESSAGE,"用户留言信息更新了");
